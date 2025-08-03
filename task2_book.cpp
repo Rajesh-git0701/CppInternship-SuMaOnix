@@ -2,33 +2,51 @@
 using namespace std;
 
 class Book {
-private:
-    string title;
-    string author;
+public:
+    string title, author;
     int year;
 
-public:
-    void inputDetails() {
-        cout << "Enter Book Title: ";
+    void get() {
+        cout << "Title: ";
         getline(cin, title);
-        cout << "Enter Author Name: ";
+        cout << "Author: ";
         getline(cin, author);
-        cout << "Enter Published Year: ";
+        cout << "Year: ";
         cin >> year;
         cin.ignore();
     }
 
-    void displayDetails() {
-        cout << "\n--- Book Details ---" << endl;
-        cout << "Title        : " << title << endl;
-        cout << "Author       : " << author << endl;
-        cout << "Published In : " << year << endl;
+    void show() {
+        cout << "\n" << title << " by " << author << " (" << year << ")\n";
     }
 };
 
 int main() {
-    Book myBook;
-    myBook.inputDetails();
-    myBook.displayDetails();
+    int n;
+    cout << "Number of books: ";
+    cin >> n;
+    cin.ignore();
+    Book b[20];
+
+    for (int i = 0; i < n; i++) {
+        cout << "\nBook " << i + 1 << ":\n";
+        b[i].get();
+    }
+
+    string titleSearch, authorSearch;
+    cout << "\nEnter title to view: ";
+    getline(cin, titleSearch);
+    for (int i = 0; i < n; i++) {
+        if (b[i].title == titleSearch)
+            b[i].show();
+    }
+
+    cout << "\nEnter author to search: ";
+    getline(cin, authorSearch);
+    for (int i = 0; i < n; i++) {
+        if (b[i].author == authorSearch)
+            b[i].show();
+    }
+
     return 0;
 }
