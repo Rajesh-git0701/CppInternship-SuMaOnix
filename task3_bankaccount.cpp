@@ -1,56 +1,69 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
 class BankAccount {
 private:
-    string name;
-    int accNumber;
     double balance;
 
 public:
-    void openAccount() {
-        cout << "Enter Account Holder Name: ";
-        getline(cin, name);
-        cout << "Enter Account Number: ";
-        cin >> accNumber;
-        cout << "Enter Initial Balance: ";
-        cin >> balance;
-        cin.ignore();
+    BankAccount(double initial = 0) {
+        balance = initial;
     }
 
-    void deposit() {
-        double amount;
-        cout << "Enter amount to deposit: ";
-        cin >> amount;
-        balance += amount;
-        cout << "Deposited Successfully.\n";
-    }
-
-    void withdraw() {
-        double amount;
-        cout << "Enter amount to withdraw: ";
-        cin >> amount;
-        if (amount <= balance) {
-            balance -= amount;
-            cout << "Withdrawal Successful.\n";
+    void deposit(double amt) {
+        if (amt > 0) {
+            balance += amt;
+            cout << "Deposited: $" << fixed << setprecision(2) << amt << endl;
         } else {
-            cout << "Insufficient Balance.\n";
+            cout << "Invalid amount!" << endl;
         }
     }
 
-    void displayAccount() {
-        cout << "\n--- Account Details ---" << endl;
-        cout << "Name     : " << name << endl;
-        cout << "Account# : " << accNumber << endl;
-        cout << "Balance  : ₹" << balance << endl;
+    void withdraw(double amt) {
+        if (amt > 0 && amt <= balance) {
+            balance -= amt;
+            cout << "Withdrawn: $" << fixed << setprecision(2) << amt << endl;
+        } else {
+            cout << "Insufficient or invalid amount!" << endl;
+        }
+    }
+
+    void balanceAmount() {
+        cout << "Current Balance: $" << fixed << setprecision(2) << balance << endl;
     }
 };
 
 int main() {
-    BankAccount user;
-    user.openAccount();
-    user.deposit();
-    user.withdraw();
-    user.displayAccount();
+    BankAccount acc;
+    int choice;
+    double amt;
+
+    do {
+        cout << "\n===== Bank Menu =====" << endl;
+        cout << "1. Deposit\n2. Withdraw\n3. Balance\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch(choice) {
+            case 1:
+                cin >> amt;
+                acc.deposit(amt);
+                break;
+            case 2:
+                cin >> amt;
+                acc.withdraw(amt);
+                break;
+            case 3:
+                acc.balanceAmount();
+                break;
+            case 4:
+                cout << "Exiting... Thank you!" << endl;
+                break;
+            default:
+                cout << "Invalid choice! Try again." << endl;
+        }
+    } while(choice != 4);
+
     return 0;
 }
